@@ -71,9 +71,7 @@ Doctor writes prescription
 Appointment status becomes completed
 
 Local Setup
-
-Backend(command)
-
+Backend
 cd hospital_backend
 python -m venv venv
 venv\Scripts\activate
@@ -82,16 +80,15 @@ python manage.py migrate
 python manage.py createsuperuser
 python manage.py runserver
 
--Create .env file inside hospital_backend:
+Create .env file inside hospital_backend:
+
 SECRET_KEY=your-secret-key
 DEBUG=True
 ALLOWED_HOSTS=127.0.0.1,localhost
 DATABASE_URL=sqlite:///db.sqlite3
 CORS_ALLOWED_ORIGINS=http://localhost:5173
 CSRF_TRUSTED_ORIGINS=http://localhost:5173
-
-
--Frontend
+Frontend
 cd hospital_frontend
 npm install
 npm run dev
