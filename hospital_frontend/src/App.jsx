@@ -14,6 +14,7 @@ import DoctorAppointments from "./pages/DoctorAppointments";
 import PrescriptionForm from "./pages/PrescriptionForm";
 
 import AdminDashboard from "./pages/AdminDashboard";
+import AdminHistory from "./pages/AdminHistory";
 
 function App() {
   return (
@@ -100,6 +101,15 @@ function App() {
           element={
             <ProtectedRoute allowedRoles={["admin"]}>
               <AdminDashboard />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/history"
+          element={
+            <ProtectedRoute allowedRoles={["admin", "reception", "doctor"]}>
+              <AdminHistory />
             </ProtectedRoute>
           }
         />

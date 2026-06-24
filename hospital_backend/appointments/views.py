@@ -1,5 +1,7 @@
 from rest_framework import viewsets
 from rest_framework.exceptions import PermissionDenied
+from rest_framework.decorators import action
+from rest_framework.response import Response
 
 from .models import Appointment, Prescription
 from .serializers import AppointmentSerializer, PrescriptionSerializer
@@ -42,6 +44,27 @@ class AppointmentViewSet(viewsets.ModelViewSet):
             raise PermissionDenied('Doctor cannot update appointment directly.')
 
         serializer.save()
+
+    @action(detail=False, methods=['get'], url_path='history')
+    def history(self, request):
+        user = request.user
+
+        if user.role in ['admin', 'reception']:
+            completed_appointments = Appointment.objects.filter(
+                status='completed'
+            ).order_by('-appointment_date', '-appointment_time')
+
+        elif user.role == 'doctor':
+            completed_appointments = Appointment.objects.filter(
+                status='completed',
+                doctor__user=user
+            ).order_by('-appointment_date', '-appointment_time')
+
+        else:
+            completed_appointments = Appointment.objects.none()
+
+        serializer = self.get_serializer(completed_appointments, many=True)
+        return Response(serializer.data)
 
 
 class PrescriptionViewSet(viewsets.ModelViewSet):

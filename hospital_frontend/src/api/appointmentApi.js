@@ -7,3 +7,7 @@ export const getAppointments = () => {
 export const createAppointment = (data) => {
   return api.post("/appointments/", data);
 };
+
+export const getAppointmentHistory = () => {
+  return api.get("/appointments/history/");
+};

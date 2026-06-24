@@ -1,10 +1,17 @@
 from rest_framework import serializers
+
 from .models import Appointment, Prescription
 
 
 class AppointmentSerializer(serializers.ModelSerializer):
     patient_name = serializers.CharField(source='patient.name', read_only=True)
+    patient_phone = serializers.CharField(source='patient.phone', read_only=True)
     doctor_name = serializers.CharField(source='doctor.user.username', read_only=True)
+
+    diagnosis = serializers.CharField(source='prescription.diagnosis', read_only=True)
+    medicines = serializers.CharField(source='prescription.medicines', read_only=True)
+    advice = serializers.CharField(source='prescription.advice', read_only=True)
+    follow_up_date = serializers.DateField(source='prescription.follow_up_date', read_only=True)
 
     class Meta:
         model = Appointment
@@ -12,12 +19,17 @@ class AppointmentSerializer(serializers.ModelSerializer):
             'id',
             'patient',
             'patient_name',
+            'patient_phone',
             'doctor',
             'doctor_name',
             'appointment_date',
             'appointment_time',
             'symptoms',
             'status',
+            'diagnosis',
+            'medicines',
+            'advice',
+            'follow_up_date',
             'created_at',
         ]
 

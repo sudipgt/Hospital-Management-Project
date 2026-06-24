@@ -25,6 +25,9 @@ function Sidebar() {
           <NavLink className="sidebar-link" to="/reception/appointments">
             Appointments
           </NavLink>
+          <NavLink className="sidebar-link" to="/history">
+            History
+          </NavLink>
         </>
       )}
 
@@ -36,13 +39,21 @@ function Sidebar() {
           <NavLink className="sidebar-link" to="/doctor/appointments">
             My Appointments
           </NavLink>
+          <NavLink className="sidebar-link" to="/history">
+            History
+          </NavLink>
         </>
       )}
 
       {user?.role === "admin" && (
-        <NavLink className="sidebar-link" to="/admin-dashboard">
-          Dashboard
-        </NavLink>
+        <>
+          <NavLink className="sidebar-link" to="/admin-dashboard">
+            Dashboard
+          </NavLink>
+          <NavLink className="sidebar-link" to="/history">
+            History
+          </NavLink>
+        </>
       )}
     </aside>
   );
