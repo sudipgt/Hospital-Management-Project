@@ -13,18 +13,19 @@ class AppointmentViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         user = self.request.user
 
+        base_queryset = Appointment.objects.exclude(
+            status__in=['completed', 'cancelled']
+        ).order_by(
+            '-appointment_date',
+            '-appointment_time'
+        )
+
         if user.role in ['admin', 'reception']:
-            return Appointment.objects.all().order_by(
-                '-appointment_date',
-                '-appointment_time'
-            )
+            return base_queryset
 
         if user.role == 'doctor':
-            return Appointment.objects.filter(
+            return base_queryset.filter(
                 doctor__user=user
-            ).order_by(
-                '-appointment_date',
-                '-appointment_time'
             )
 
         return Appointment.objects.none()
@@ -50,20 +51,41 @@ class AppointmentViewSet(viewsets.ModelViewSet):
         user = request.user
 
         if user.role in ['admin', 'reception']:
-            completed_appointments = Appointment.objects.filter(
-                status='completed'
+            history_appointments = Appointment.objects.filter(
+                status__in=['completed', 'cancelled']
             ).order_by('-appointment_date', '-appointment_time')
 
         elif user.role == 'doctor':
-            completed_appointments = Appointment.objects.filter(
-                status='completed',
+            history_appointments = Appointment.objects.filter(
+                status__in=['completed', 'cancelled'],
                 doctor__user=user
             ).order_by('-appointment_date', '-appointment_time')
 
         else:
-            completed_appointments = Appointment.objects.none()
+            history_appointments = Appointment.objects.none()
 
-        serializer = self.get_serializer(completed_appointments, many=True)
+        serializer = self.get_serializer(history_appointments, many=True)
+        return Response(serializer.data)
+
+    @action(detail=True, methods=['patch'], url_path='cancel')
+    def cancel(self, request, pk=None):
+        user = request.user
+
+        if user.role not in ['admin', 'reception']:
+            raise PermissionDenied('Only admin or reception can cancel appointments.')
+
+        appointment = self.get_object()
+
+        if appointment.status == 'completed':
+            raise PermissionDenied('Completed appointments cannot be cancelled.')
+
+        if appointment.status == 'cancelled':
+            raise PermissionDenied('Appointment is already cancelled.')
+
+        appointment.status = 'cancelled'
+        appointment.save()
+
+        serializer = self.get_serializer(appointment)
         return Response(serializer.data)
 
 
