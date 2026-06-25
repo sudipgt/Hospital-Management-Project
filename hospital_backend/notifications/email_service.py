@@ -44,6 +44,7 @@ def send_appointment_email(appointment):
             recipient_list=[patient.email],
             fail_silently=False,
         )
+
         print("Appointment email sent successfully.")
         return True
 
