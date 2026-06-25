@@ -168,3 +168,22 @@ CSRF_TRUSTED_ORIGINS = config(
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 USE_X_FORWARDED_HOST = True
+
+# Email Configuration
+EMAIL_ENABLED = config("EMAIL_ENABLED", default=False, cast=bool)
+
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = config("EMAIL_HOST", default="smtp.gmail.com")
+EMAIL_PORT = config("EMAIL_PORT", default=587, cast=int)
+EMAIL_USE_TLS = config("EMAIL_USE_TLS", default=True, cast=bool)
+EMAIL_HOST_USER = config("EMAIL_HOST_USER", default="")
+EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD", default="")
+DEFAULT_FROM_EMAIL = config("DEFAULT_FROM_EMAIL", default=EMAIL_HOST_USER)
+
+# Hospital Fixed Details
+HOSPITAL_NAME = config("HOSPITAL_NAME", default="MediCare Hospital")
+HOSPITAL_ADDRESS = config(
+    "HOSPITAL_ADDRESS",
+    default="Near City Center, Pune, Maharashtra, India - 411001"
+)
+HOSPITAL_CONTACT = config("HOSPITAL_CONTACT", default="+91 9876543210")

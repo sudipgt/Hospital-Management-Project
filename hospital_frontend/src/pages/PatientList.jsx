@@ -33,6 +33,7 @@ function PatientList() {
                 <th>Age</th>
                 <th>Gender</th>
                 <th>Phone</th>
+                <th>Email</th>
                 <th>Blood Group</th>
               </tr>
             </thead>
@@ -45,6 +46,7 @@ function PatientList() {
                   <td>{patient.age}</td>
                   <td>{patient.gender}</td>
                   <td>{patient.phone}</td>
+                  <td>{patient.email || "-"}</td>
                   <td>{patient.blood_group}</td>
                 </tr>
               ))}

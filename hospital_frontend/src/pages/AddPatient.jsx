@@ -8,6 +8,7 @@ function AddPatient() {
     age: "",
     gender: "male",
     phone: "",
+    email: "",
     address: "",
     blood_group: "",
   });
@@ -34,6 +35,7 @@ function AddPatient() {
         age: "",
         gender: "male",
         phone: "",
+        email: "",
         address: "",
         blood_group: "",
       });
@@ -77,6 +79,18 @@ function AddPatient() {
             </div>
 
             <div className="form-group">
+              <label>Email</label>
+              <input
+                className="input"
+                type="email"
+                name="email"
+                value={form.email}
+                onChange={handleChange}
+                placeholder="patient@example.com"
+              />
+            </div>
+
+            <div className="form-group">
               <label>Address</label>
               <textarea className="input" name="address" value={form.address} onChange={handleChange} />
             </div>
@@ -96,4 +110,4 @@ function AddPatient() {
   );
 }
 
-export default AddPatient;         
+export default AddPatient;
