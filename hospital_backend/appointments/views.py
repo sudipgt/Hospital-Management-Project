@@ -5,7 +5,6 @@ from rest_framework.response import Response
 
 from .models import Appointment, Prescription
 from .serializers import AppointmentSerializer, PrescriptionSerializer
-from .sms_service import send_appointment_sms
 from notifications.email_service import send_appointment_email
 
 
