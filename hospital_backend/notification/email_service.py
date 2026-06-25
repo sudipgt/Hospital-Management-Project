@@ -3,17 +3,11 @@ from django.core.mail import send_mail
 
 
 def send_appointment_email(appointment):
-    print("========== EMAIL FUNCTION STARTED ==========")
-
     if not settings.EMAIL_ENABLED:
         print("Email disabled. Skipping appointment email.")
         return False
 
     patient = appointment.patient
-
-    print("Patient Name:", patient.name)
-    print("Patient Email:", patient.email)
-    print("Doctor:", appointment.doctor.user.username)
 
     if not patient.email:
         print("Patient email missing. Email not sent.")
@@ -42,10 +36,6 @@ def send_appointment_email(appointment):
         f"{hospital_name}"
     )
 
-    print("=========== EMAIL MESSAGE ===========")
-    print(message)
-    print("====================================")
-
     try:
         send_mail(
             subject=subject,
@@ -54,7 +44,6 @@ def send_appointment_email(appointment):
             recipient_list=[patient.email],
             fail_silently=False,
         )
-
         print("Appointment email sent successfully.")
         return True
 
